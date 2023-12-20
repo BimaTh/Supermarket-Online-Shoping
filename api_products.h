@@ -27,7 +27,7 @@ void Order(sqlite3* db) {
     vector<UserOrder> pendingOrder;
     Product requiredProduct = {};
     Date myDate = {};
-    int input = 0;
+    int productID = 0;
     int exitVal = 0;
     int totalPrice = 0;
     int itemCounter = 1;
@@ -39,27 +39,27 @@ void Order(sqlite3* db) {
 
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cout << "To Choose the product press its id: ";
-    cin >> input;
+    cin >> productID;
 
-    if (input == -1) {
+    if (productID == -1) {
         exitVal = -1;
         continue;
     }
 
     //Get the product from the database to check its expiration date
     //and quanity
-    requiredProduct = getProductById(db, to_string(input));
+    requiredProduct = getProductById(db, to_string(productID));
 
     //Check if this product is in the database
     if (requiredProduct.Code == "") {
-        cout << "Invalid ID" << endl;
+        cout << "Product not found" << endl;
         continue;
     }
     
     //Convert the string date to day month and year
-    stringstream ss(requiredProduct.ExpirationDate);
+    /*stringstream ss(requiredProduct.ExpirationDate);
     char delimiter;
-    ss >> myDate.day >> delimiter >> myDate.month >> delimiter >> myDate.year;
+    ss >> myDate.day >> delimiter >> myDate.month >> delimiter >> myDate.year;*/
     //Function we created to check if the date of expiration has past and returns true
     //if it didn't expire and false if it did
     //bool dateChecker = dateChekcer(myDate);
@@ -95,7 +95,7 @@ void Order(sqlite3* db) {
     //!!!!!!!!!!! REMEMBER TO CHANGE THE USER ID !!!!!!!!!!!
     //Assign the order
     userOrder.UserID = 2;
-    userOrder.ProductID = to_string(input);
+    userOrder.ProductID = to_string(productID);
     userOrder.Quantity = quantity;
     userOrder.ProductName = requiredProduct.Name;
     userOrder.Price = requiredProduct.Price * quantity;
@@ -120,7 +120,7 @@ void Order(sqlite3* db) {
     cin >> exitVal;
 
     //Validation for the right input
-    while (exitVal != 1 && exitVal != -1 && exitVal != -2) {
+    while (exitVal != 1  && exitVal != -2) {
         cout << "Please only select between -1 to exit -2 for different category and 1 to continue" << endl;
         cin >> exitVal;
     }
