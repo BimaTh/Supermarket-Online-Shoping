@@ -95,6 +95,89 @@ void Greeting(sqlite3* db) {
 
 }
 
+int editInformation()
+{
+
+    Person person;
+    int choice, age;
+    string name, password, phoneNumber, location;
+
+    cout << "=====================================\n";
+    cout << "choice 1 : edit your name\n";
+    cout << "choice 2 : edit your password\n";
+    cout << "choice 3 : edit your phone number\n";
+    cout << "choice 4 : edit your location\n";
+    cout << "choice 5 : edit your age\n";
+    cout << "=====================================\n";
+    cout << "Enter your choice\n";
+
+    cin >> choice;
+
+    switch (choice)
+    {
+    case 1 :
+        cout << "You're editing your name\n";
+        cout << "Enter your name\n";
+
+        getline(cin, name);
+
+        person.Name = name;
+            // edit the name in the database
+         break;
+
+    case 2 : 
+        cout << "You're editing your password\n";
+        cout << "Enter your new password\n";
+
+        getline(cin, password);
+
+        person.Password = password;
+        // edit the password
+        break;
+
+    case 3 :
+        cout << "You're editing your phone number\n";
+        cout << "Enter your new phone number\n";
+
+        getline(cin, phoneNumber);
+
+        person.PhoneNumber = phoneNumber;
+        // edit the phone number
+        break;
+
+    case 4 :
+        cout << "You're editing your location\n";
+        cout << "Enter your new location\n";
+
+        getline(cin, location);
+
+        person.Location = location;
+        // edit the location
+
+        break;
+
+    case 5 : 
+        cout << "You're editing your age\n";
+        cout << "Enter your new age\n";
+
+        cin >> age;
+
+        person.Age = age;
+    default:
+        break;
+    }
+
+    return 0;
+}
+
+
+int logoOut()
+{
+    cout << "logged out!";
+
+    return 0;
+}
+
 
 
 

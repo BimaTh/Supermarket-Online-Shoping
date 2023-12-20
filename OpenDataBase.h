@@ -13,7 +13,7 @@ sqlite3* openDataBase(string dbFileName)
 	sqlite3_open(dbFileName.c_str(), &db);
 
 	//Users Table
-	int req = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, password TEXT, phone TEXT, location TEXT)", NULL, NULL, NULL);
+	int req = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, password TEXT, loggedIn INTEGER CHECK (loggedIn IN (0, 1)) DEFAULT 0) phone TEXT, location TEXT)", NULL, NULL, NULL);
     checkForError(db, req);
 	if (req == 1)
 	{
