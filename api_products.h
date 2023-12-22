@@ -13,7 +13,6 @@
 #include "OpenDataBase.h"
 #include "api_users.h"
 //#include "main.cpp"
-
 using namespace std;
 
 int generateID() {
@@ -30,7 +29,9 @@ void ClearScreen() {
 void mainMenuRedirection(sqlite3* db, string userId) {
     cout << "===========================================\n";
     cout << "To return to main menu press 0" << endl;
+    setTextColor(ANSI_RED);
     cout << "To exit the app press any other key" << endl;
+    setTextColor(ANSI_RESET);
     cout << "===========================================\n";
     int mainMenu;
     cin >> mainMenu;
@@ -58,7 +59,12 @@ void ViewProducts(sqlite3* db, string userId, bool view) {
     cout << "===================================================================================================================================================================\n";
     cout << "ItemBarCode" << setw(30) << "Name" << setw(30) << "Price" << setw(30) << "Category" << setw(30) << "ProductionDate" << setw(30) << "ExpirationDate" << endl;
     for (int i = 0; i < products.size(); i++) {
-        cout <<products[i].Code << setw(30) << products[i].Name << setw(30) << products[i].Price << setw(30) << products[i].CategoryType << setw(30) << products[i].ProductionDate << setw(30) << products[i].ExpirationDate <<endl;
+        cout << products[i].Code << setw(30) << products[i].Name << setw(30);
+            setTextColor(ANSI_GREEN);
+            cout << products[i].Price <<"$";
+                setTextColor(ANSI_RESET);
+              cout<<  setw(30) << products[i].CategoryType << setw(30) << products[i].ProductionDate << setw(30) << products[i].ExpirationDate <<endl;
+            
     }
     cout << "===================================================================================================================================================================\n";
     if (view == false) {
@@ -77,7 +83,9 @@ void ViewProducts(sqlite3* db, string userId, bool view) {
         ViewItemInfo(db, to_string(barCode));
     cout << "===========================================\n";
     cout << "To View another item press 1" << endl;
+    setTextColor(ANSI_RED);
     cout << "To Exit press 0" << endl;
+    setTextColor(ANSI_RESET);
     cout << "===========================================\n";
     cin >> itemInfo;
     }
@@ -140,7 +148,9 @@ void Order(sqlite3* db, string userId, bool edit) {
 
     //Check if product out of stock
     if (requiredProduct.Quantity == 0) {
+        setTextColor(ANSI_RED);
         cout << "This Product is out of stock" << endl;
+        setTextColor(ANSI_RESET);
         continue;
     }
 
@@ -165,7 +175,9 @@ void Order(sqlite3* db, string userId, bool edit) {
     //Validate the quantity
     while (requiredProduct.Quantity < quantity) {
         cout << "The Only available quantity is " << requiredProduct.Quantity << endl;
+        setTextColor(ANSI_RED);
         cout << "Choose a smaller quantity: ";
+        setTextColor(ANSI_RESET);
         cin >> quantity;
     }
 
@@ -191,7 +203,7 @@ void Order(sqlite3* db, string userId, bool edit) {
 
     //Display cart
     ClearScreen();
-    cout << "YOUR CART" << endl;
+    cout << "YOUR CART" << endl ;
     cout << "===================================================================================================================================================================\n\n";
     cout << "ItemCode" << setw(30) << "ProductName" << setw(30) << "Quantity" << setw(30) <<"Product Price" << endl;
     for (int i = 0; i < dynamicArray.size(); i++) {
@@ -201,8 +213,12 @@ void Order(sqlite3* db, string userId, bool edit) {
         cout << pendingOrder[i].ItemCode << setw(30) << pendingOrder[i].ProductName << setw(30) << pendingOrder[i].Quantity << setw(30) << pendingOrder[i].Price << endl;
         totalPrice = totalPrice + pendingOrder[i].Price;
     }
-    cout << "Total Price: " << totalPrice << endl;
+    setTextColor(ANSI_GREEN);
+    cout << "Total Price: " << totalPrice <<"$" <<endl;
+    setTextColor(ANSI_RESET);
+    setTextColor(ANSI_RED);
     cout <<  "\n" <<"To Exit press -1 " << endl;
+    setTextColor(ANSI_RESET);
     cout << "===================================================================================================================================================================\n\n";
      
     }
@@ -213,10 +229,11 @@ void Order(sqlite3* db, string userId, bool edit) {
         saveOrder(db, dynamicArray[i]);
     }
     
-
+    setTextColor(ANSI_BOLD);
     cout << "Thank you for your Purchase" << endl;
+    setTextColor(ANSI_RESET);
     if (edit == true) {
-        cout << "Redirecting to edit order to proceed" << endl;
+        cout << "Redirecting to edit order to proceed..." << endl;
         return;
     }
     mainMenuRedirection(db, userId);
@@ -348,7 +365,9 @@ void EditOrder(sqlite3* db, string userId) {
     
     cout << "Data updated successfully" << endl;
     cout << "=====================================\n";
+    setTextColor(ANSI_RED);
     cout << "To exit edit order press -1" << endl;
+    setTextColor(ANSI_RESET);
     cout << "To Editing in your order press any other number" << endl;
     cout << "=====================================\n";
     cin >> exitVal;
